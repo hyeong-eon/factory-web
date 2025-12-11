@@ -9,18 +9,15 @@
     <p>로딩중...</p>
 
     <script type="module">
-      // Capacitor가 로드될 때까지 대기
       document.addEventListener("DOMContentLoaded", async () => {
         if (window.Capacitor) {
           const { App } = window.Capacitor.Plugins;
 
-          // 딥 링크 리스너
           App.addListener("appUrlOpen", (event) => {
-            console.log("Deep link opened:", event.url);
+            console.log("딥 링크:", event.url);
 
             const url = event.url;
 
-            // factoryapp://attendance/in
             if (url.includes("/in")) {
               window.location.href = "./main/in.html";
             } else if (url.includes("/out")) {
@@ -33,7 +30,6 @@
           });
         }
 
-        // 기본 홈으로 리다이렉트
         setTimeout(() => {
           window.location.href = "./main/home.html";
         }, 100);

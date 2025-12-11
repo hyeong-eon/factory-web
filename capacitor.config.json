@@ -1,5 +1,8 @@
 {
   "appId": "com.mycompany.attendance",
   "appName": "factoryweb",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "url": "https://factory-web-mu.vercel.app"
+  }
 }
