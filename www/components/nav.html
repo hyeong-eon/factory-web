@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nav</title>
+    <link rel="stylesheet" href="../components/nav.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <div class="nav-menu">
+          <a href="../main/home.html">홈으로</a>
+        </div>
+        <div class="nav-menu">
+          <a href="../main/in.html">출근</a>
+        </div>
+        <div class="nav-menu">
+          <a href="../main/out.html">퇴근</a>
+        </div>
+        <div class="nav-menu">
+          <a href="../main/table.html">표</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 모바일 메뉴 버튼 -->
+    <div class="menu-btn" id="menuBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- 오버레이 -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- 모바일 사이드 메뉴 -->
+    <div class="side-menu" id="sideMenu">
+      <div class="menu-header">메뉴</div>
+      <div class="menu-items">
+        <a href="../main/home.html" class="menu-item"> 🏠 홈으로 </a>
+        <a href="../main/in.html" class="menu-item"> ✅ 출근 </a>
+        <a href="../main/out.html" class="menu-item"> 🚪 퇴근 </a>
+        <a href="../main/table.html" class="menu-item"> 📊 표 </a>
+      </div>
+    </div>
+    <script src="../components/nav.js"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+    <link rel="stylesheet" href="../css/home.css" />
+  </head>
+  <body>
+    <div id="headers"></div>
+    <div id="navs"></div>
+    <div class="content-container">
+      <div class="image-wrapper">
+        <img src="../assets/factory.png" alt="Welcome" />
+      </div>
+      <div class="message">오늘도 열심히 일해봐요!</div>
+
+      <!-- 딥 링크 테스트 버튼 -->
+      <div class="deeplink-test">
+        <h3>🔗 딥 링크 테스트</h3>
+        <div class="deeplink-buttons">
+          <button class="deeplink-btn in" onclick="testDeeplink('in')">
+            ✅ 출근 페이지 열기
+          </button>
+          <button class="deeplink-btn out" onclick="testDeeplink('out')">
+            🚪 퇴근 페이지 열기
+          </button>
+          <button class="deeplink-btn table" onclick="testDeeplink('table')">
+            📊 표 페이지 열기
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery 먼저 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- JS 파일 -->
+    <script src="../js/home.js"></script>
+  </body>
+</html>

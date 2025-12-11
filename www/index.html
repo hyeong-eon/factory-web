@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>출퇴근앱</title>
+  </head>
+  <body>
+    <p>로딩중...</p>
+
+    <script type="module">
+      // Capacitor가 로드될 때까지 대기
+      document.addEventListener("DOMContentLoaded", async () => {
+        if (window.Capacitor) {
+          const { App } = window.Capacitor.Plugins;
+
+          // 딥 링크 리스너
+          App.addListener("appUrlOpen", (event) => {
+            console.log("Deep link opened:", event.url);
+
+            const url = event.url;
+
+            // factoryapp://attendance/in
+            if (url.includes("/in")) {
+              window.location.href = "./main/in.html";
+            } else if (url.includes("/out")) {
+              window.location.href = "./main/out.html";
+            } else if (url.includes("/table")) {
+              window.location.href = "./main/table.html";
+            } else {
+              window.location.href = "./main/home.html";
+            }
+          });
+        }
+
+        // 기본 홈으로 리다이렉트
+        setTimeout(() => {
+          window.location.href = "./main/home.html";
+        }, 100);
+      });
+    </script>
+  </body>
+</html>

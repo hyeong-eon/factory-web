@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>out</title>
+    <link rel="stylesheet" href="../css/out.css" />
+  </head>
+  <body>
+    <div id="headers"></div>
+    <div id="navs"></div>
+    <div class="table-container">
+      <div class="form-wrapper">
+        <div class="form-title">퇴근</div>
+        <table>
+          <tr>
+            <th>이름</th>
+            <th><input type="text" id="name" /></th>
+          </tr>
+          <tr>
+            <th>퇴근시각</th>
+            <th><input type="time" id="time" /></th>
+          </tr>
+          <tr>
+            <th>기타사항</th>
+            <th><input type="text" id="note" /></th>
+          </tr>
+        </table>
+        <div class="button-container">
+          <button class="btn-reset" onclick="resetForm()">초기화</button>
+          <button class="btn-submit" onclick="submitForm()">확인</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery 먼저 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- JS 파일 -->
+    <script src="../js/out.js"></script>
+  </body>
+</html>
