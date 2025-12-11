@@ -17,16 +17,23 @@
 
         App.addListener("appUrlOpen", (event) => {
           deeplinkOpened = true;
-          console.log("앱으로 열림:", event.url);
+          console.log("딥링크 호출됨:", event.url);
 
-          if (event.url.includes("/main/in.html")) {
-            window.location.href = "./main/in.html";
-          } else if (event.url.includes("/main/out.html")) {
-            window.location.href = "./main/out.html";
-          } else if (event.url.includes("/main/table.html")) {
-            window.location.href = "./main/table.html";
-          } else if (event.url.includes("/main/home.html")) {
-            window.location.href = "./main/home.html";
+          try {
+            const url = new URL(event.url);
+            const path = url.pathname; // "/main/in.html"
+
+            if (path.endsWith("in.html")) {
+              window.location.href = "/main/in.html";
+            } else if (path.endsWith("out.html")) {
+              window.location.href = "/main/out.html";
+            } else if (path.endsWith("table.html")) {
+              window.location.href = "/main/table.html";
+            } else if (path.endsWith("home.html")) {
+              window.location.href = "/main/home.html";
+            }
+          } catch (e) {
+            console.error("딥링크 파싱 오류:", e);
           }
         });
       }
@@ -35,35 +42,60 @@
       async function initFCM() {
         try {
           const PushNotifications = window.Capacitor.Plugins.PushNotifications;
+          const { LocalNotifications } = window.Capacitor.Plugins;
 
           console.log("PushNotifications Plugin:", PushNotifications);
 
           let perm = await PushNotifications.checkPermissions();
+          console.log("📱 현재 권한:", perm);
+
           if (perm.receive !== "granted") {
             perm = await PushNotifications.requestPermissions();
+            console.log("📱 권한 요청 결과:", perm);
           }
 
           PushNotifications.register();
 
           PushNotifications.addListener("registration", (token) => {
             console.log("🔑 FCM Token:", token.value);
-
-            // 토큰 저장
             localStorage.setItem("fcmToken", token.value);
-
-            // FCM 등록 끝났으면 home으로 이동
-            if (!deeplinkOpened) {
-              window.location.href = "./main/home.html";
-            }
           });
 
           PushNotifications.addListener("registrationError", (err) => {
             console.error("❌ registrationError:", err);
           });
 
-          PushNotifications.addListener("pushNotificationReceived", (n) => {
-            console.log("📩 알림 수신:", n);
-          });
+          // 포그라운드에서 알림 수신
+          PushNotifications.addListener(
+            "pushNotificationReceived",
+            async (notification) => {
+              console.log("📩 알림 수신:", notification);
+
+              try {
+                await LocalNotifications.schedule({
+                  notifications: [
+                    {
+                      title: notification.title || "알림",
+                      body: notification.body || "",
+                      id: Date.now(),
+                      schedule: { at: new Date(Date.now() + 100) },
+                    },
+                  ],
+                });
+                console.log("✅ 로컬 알림 표시 완료");
+              } catch (e) {
+                console.error("❌ 로컬 알림 에러:", e);
+              }
+            }
+          );
+
+          // 알림 클릭 시
+          PushNotifications.addListener(
+            "pushNotificationActionPerformed",
+            (action) => {
+              console.log("👆 알림 클릭:", action);
+            }
+          );
         } catch (e) {
           console.error("FCM error:", e);
         }
@@ -72,9 +104,16 @@
       // ========== 3) 실행 ==========
       if (window.Capacitor) {
         initFCM();
+
+        // 딥링크 없으면 1초 후 홈으로
+        setTimeout(() => {
+          if (!deeplinkOpened) {
+            window.location.href = "/main/home.html";
+          }
+        }, 1000);
       } else {
-        // 웹 브라우저에서는 그냥 홈으로 이동
-        window.location.href = "./main/home.html";
+        // 웹에서는 바로 홈으로
+        window.location.href = "/main/home.html";
       }
     </script>
   </body>

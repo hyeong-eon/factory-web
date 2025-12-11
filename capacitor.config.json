@@ -4,5 +4,10 @@
   "webDir": "www",
   "server": {
     "url": "https://factory-web-mu.vercel.app"
+  },
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
   }
 }
