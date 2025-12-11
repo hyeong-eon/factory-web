@@ -9,13 +9,15 @@
     <p>로딩중...</p>
 
     <script type="module">
+      let deeplinkOpened = false;
+
       if (window.Capacitor) {
         const { App } = window.Capacitor.Plugins;
 
         App.addListener("appUrlOpen", (event) => {
+          deeplinkOpened = true;
           console.log("앱으로 열림:", event.url);
 
-          // https://factory-web-mu.vercel.app/main/in.html
           if (event.url.includes("/main/in.html")) {
             window.location.href = "./main/in.html";
           } else if (event.url.includes("/main/out.html")) {
@@ -28,10 +30,12 @@
         });
       }
 
-      // 기본 홈으로
+      // 딥링크가 아닌 일반 실행일 때만 홈으로 이동
       setTimeout(() => {
-        window.location.href = "./main/home.html";
-      }, 100);
+        if (!deeplinkOpened) {
+          window.location.href = "./main/home.html";
+        }
+      }, 200);
     </script>
   </body>
 </html>
