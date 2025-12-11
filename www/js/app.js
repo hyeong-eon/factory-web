@@ -1,21 +1,20 @@
 import { App } from "@capacitor/app";
 
 App.addListener("appUrlOpen", (event) => {
-  console.log("딥링크 실행됨:", event.url);
+  console.log("딥링크 호출됨:", event.url);
 
-  const url = new URL(event.url);
+  try {
+    const url = new URL(event.url);
+    const path = url.pathname; // "/main/in.html"
 
-  const pathname = url.pathname;
-  // 예: "/main/in.html", "/main/out.html", "/main/table.html"
-
-  console.log("pathname:", pathname);
-
-  // 원하는 페이지로 직접 이동
-  if (pathname === "/main/in.html") {
-    window.location.href = "/main/in.html";
-  } else if (pathname === "/main/out.html") {
-    window.location.href = "/main/out.html";
-  } else if (pathname === "/main/table.html") {
-    window.location.href = "/main/table.html";
+    if (path.endsWith("in.html")) {
+      window.location.href = "/main/in.html";
+    } else if (path.endsWith("out.html")) {
+      window.location.href = "/main/out.html";
+    } else if (path.endsWith("table.html")) {
+      window.location.href = "/main/table.html";
+    }
+  } catch (e) {
+    console.error("딥링크 파싱 오류:", e);
   }
 });
