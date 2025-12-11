@@ -1,20 +1,21 @@
 import { App } from "@capacitor/app";
 
-App.addListener("appUrlOpen", function (event) {
-  // event.url에 딥 링크 URL이 들어옴
-  console.log("App opened with URL:", event.url);
+App.addListener("appUrlOpen", (event) => {
+  console.log("딥링크 실행됨:", event.url);
 
-  // URL 파싱
-  const slug = event.url.split(".app").pop();
+  const url = new URL(event.url);
 
-  if (slug) {
-    // 페이지 라우팅
-    if (slug === "//attendance/in") {
-      window.location.href = "/main/in.html";
-    } else if (slug === "//attendance/out") {
-      window.location.href = "/main/out.html";
-    } else if (slug === "//attendance/table") {
-      window.location.href = "/main/table.html";
-    }
+  const pathname = url.pathname;
+  // 예: "/main/in.html", "/main/out.html", "/main/table.html"
+
+  console.log("pathname:", pathname);
+
+  // 원하는 페이지로 직접 이동
+  if (pathname === "/main/in.html") {
+    window.location.href = "/main/in.html";
+  } else if (pathname === "/main/out.html") {
+    window.location.href = "/main/out.html";
+  } else if (pathname === "/main/table.html") {
+    window.location.href = "/main/table.html";
   }
 });
