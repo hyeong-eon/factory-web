@@ -9,8 +9,13 @@
     <p>로딩중...</p>
 
     <script type="module">
+      import { PushNotifications } from "@capacitor/push-notifications";
+
       let deeplinkOpened = false;
 
+      /* -----------------------------------------------------
+        🔗 1) 딥링크 처리
+      ----------------------------------------------------- */
       if (window.Capacitor) {
         const { App } = window.Capacitor.Plugins;
 
@@ -30,12 +35,58 @@
         });
       }
 
-      // 딥링크가 아닌 일반 실행일 때만 홈으로 이동
+      // 딥링크가 아닌 일반 실행일 때만 홈 이동
       setTimeout(() => {
         if (!deeplinkOpened) {
           window.location.href = "./main/home.html";
         }
       }, 200);
+
+      /* -----------------------------------------------------
+        🔥 2) FCM 푸시 알림 설정
+      ----------------------------------------------------- */
+      async function initFCM() {
+        try {
+          // 권한 체크
+          let perm = await PushNotifications.checkPermissions();
+
+          if (perm.receive !== "granted") {
+            perm = await PushNotifications.requestPermissions();
+          }
+
+          // 토큰 요청
+          PushNotifications.register();
+
+          // 토큰 수신
+          PushNotifications.addListener("registration", (token) => {
+            console.log("🔑 FCM Token:", token.value);
+
+            // 필요하면 웹스토리지에 저장
+            localStorage.setItem("fcmToken", token.value);
+          });
+
+          // 등록 오류
+          PushNotifications.addListener("registrationError", (error) => {
+            console.error("❌ FCM Registration Error:", error);
+          });
+
+          // 앱이 열려 있을 때 알림 수신
+          PushNotifications.addListener(
+            "pushNotificationReceived",
+            (notification) => {
+              console.log("📩 알림 수신:", notification);
+              alert("푸시 알림 도착: " + notification.title);
+            }
+          );
+        } catch (e) {
+          console.error("FCM 초기화 오류:", e);
+        }
+      }
+
+      // Capacitor 환경일 때만 실행
+      if (window.Capacitor) {
+        initFCM();
+      }
     </script>
   </body>
 </html>
