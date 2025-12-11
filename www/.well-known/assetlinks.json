@@ -4,7 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.mycompany.attendance",
-      "sha256_cert_fingerprints": []
+      "sha256_cert_fingerprints": [
+        "78:49:40:B2:A5:40:9E:12:50:D7:41:D5:51:9E:0B:04:6A:9E:7E:D4:2D:A7:61:E3:E9:CA:34:79:89:CD:1A:50"
+      ]
     }
   }
 ]

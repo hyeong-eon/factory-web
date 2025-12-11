@@ -9,31 +9,29 @@
     <p>로딩중...</p>
 
     <script type="module">
-      document.addEventListener("DOMContentLoaded", async () => {
-        if (window.Capacitor) {
-          const { App } = window.Capacitor.Plugins;
+      if (window.Capacitor) {
+        const { App } = window.Capacitor.Plugins;
 
-          App.addListener("appUrlOpen", (event) => {
-            console.log("딥 링크:", event.url);
+        App.addListener("appUrlOpen", (event) => {
+          console.log("앱으로 열림:", event.url);
 
-            const url = event.url;
+          // https://factory-web-mu.vercel.app/main/in.html
+          if (event.url.includes("/main/in.html")) {
+            window.location.href = "./main/in.html";
+          } else if (event.url.includes("/main/out.html")) {
+            window.location.href = "./main/out.html";
+          } else if (event.url.includes("/main/table.html")) {
+            window.location.href = "./main/table.html";
+          } else if (event.url.includes("/main/home.html")) {
+            window.location.href = "./main/home.html";
+          }
+        });
+      }
 
-            if (url.includes("/in")) {
-              window.location.href = "./main/in.html";
-            } else if (url.includes("/out")) {
-              window.location.href = "./main/out.html";
-            } else if (url.includes("/table")) {
-              window.location.href = "./main/table.html";
-            } else {
-              window.location.href = "./main/home.html";
-            }
-          });
-        }
-
-        setTimeout(() => {
-          window.location.href = "./main/home.html";
-        }, 100);
-      });
+      // 기본 홈으로
+      setTimeout(() => {
+        window.location.href = "./main/home.html";
+      }, 100);
     </script>
   </body>
 </html>
